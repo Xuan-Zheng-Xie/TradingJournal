@@ -144,7 +144,23 @@ const calculate_expected_profits = () => {
 };
 
 watch(entries, () => {
-    entries.value.sort((a, b) => a.price - b.price);
+    if(side.value){
+        entries.value.sort((a, b) => {
+            if (a.price === 0 || b.price === 0) {
+                return 0;
+            }
+            return a.price - b.price;
+        });
+        
+    }
+    else{
+        entries.value.sort((a, b) => {
+            if (a.price === 0 || b.price === 0) {
+                return 0;
+            }
+            return b.price - a.price;
+        });
+    }
     calculate_average_price();
     detect_side();
     calculate_expected_loss();
@@ -159,7 +175,7 @@ watch(exits, () => {
             if (a.price === 0 || b.price === 0) {
                 return 0;
             }
-            return b.price - a.price;
+            return a.price - b.price;
         });
         
     }
@@ -168,7 +184,7 @@ watch(exits, () => {
             if (a.price === 0 || b.price === 0) {
                 return 0;
             }
-            return a.price - b.price;
+            return b.price - a.price;
         });
     }
     calculate_expected_profits();
