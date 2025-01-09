@@ -1,0 +1,19 @@
+@import './base.css';
+@import url('./boxicons/css/boxicons.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=LXGW+WenKai+Mono+TC&display=swap&family=Noto+Serif+TC:wght@200..900');
+
+/* 設置全局字體 */
+#app {
+  max-width: 100vw;
+  max-height: 100vh;
+  font-family: 'Roboto', 'Montserrat', 'Noto Serif Traditional Chinese', sans-serif;
+}
+
+/* 假設根據語言切換字體 */
+html[lang="zh-TW"] {
+  font-family: 'Noto Serif Traditional Chinese', 'Roboto', sans-serif;
+}
+
+html[lang="en"] {
+  font-family: 'Roboto', 'Montserrat', sans-serif;
+}
