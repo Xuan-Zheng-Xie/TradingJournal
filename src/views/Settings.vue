@@ -103,7 +103,7 @@ onMounted(() => {
         <footer class="footer">
             <div class="footer-content flex flex-wrap justify-content-center align-items-center flex-column">
                 <div class="flex gap-3 mt-2">
-                    <a class="pi pi-github icon" style="font-size: 2rem;" href="https://google.com" target="_blank" rel="noopener noreferrer"></a>
+                    <a class="pi pi-github icon" style="font-size: 2rem;" href="https://github.com/Xuan-Zheng-Xie/TradingJournal" target="_blank" rel="noopener noreferrer"></a>
                     <i class="bx bxs-donate-heart icon" style="font-size: 2rem;" @click="showDonateAddress=true"></i>
                 </div>
                 <div class="footer-text mt-2">
