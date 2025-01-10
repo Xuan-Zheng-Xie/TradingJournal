@@ -149,7 +149,7 @@ watch(entries, () => {
             if (a.price === 0 || b.price === 0) {
                 return 0;
             }
-            return a.price - b.price;
+            return b.price - a.price;
         });
         
     }
@@ -158,7 +158,7 @@ watch(entries, () => {
             if (a.price === 0 || b.price === 0) {
                 return 0;
             }
-            return b.price - a.price;
+            return a.price - b.price;
         });
     }
     calculate_average_price();

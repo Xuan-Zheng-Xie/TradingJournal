@@ -338,7 +338,7 @@ const setDistributionsChartOptions = () => {
 
 <template>
     <div class="flex flex-column w-full h-full">
-        <div class="flex align-content-center p-2 w-full">
+        <div class="flex align-content-center p-2 w-full h-full">
             <Card class="w-4 h-full" :pt="{ body: 'card-root' }">
                 <template #title>
                     <div class="card flex flex-wrap">
@@ -348,23 +348,23 @@ const setDistributionsChartOptions = () => {
                     </div>
                 </template>
                 <template #content>
-                    <div class="flex flex-wrap flex-column gap-2 pt-2">
-                        <Fieldset>
+                    <div class="flex flex-column gap-2">
+                        <Fieldset style="height: 5.8rem;">
                             <template #legend>
-                                {{ t('dashboard.accumulative_profits') }}
+                                <span style="font-size: 1.1rem;;">{{ t('dashboard.accumulative_profits') }}</span>
                             </template>
-                            {{ acc_profits }}
+                            <span style="align-content: center;">{{ acc_profits }}</span>
                         </Fieldset>
-                        <Fieldset>
+                        <Fieldset style="height: 5.8rem;">
                             <template #legend>
-                                {{ t('dashboard.max_drawdown') }}
+                                <span style="font-size: 1.1rem;;">{{ t('dashboard.max_drawdown') }}</span>
                             </template>
-                            {{ max_drawdown }}
+                            <span style="align-content: center;">{{ max_drawdown }}</span>
                         </Fieldset>
                     </div>
                 </template>
             </Card>
-            <Card class="w-7 h-full" :pt="{ body: 'card-root' }">
+            <Card class="w-8 h-full" :pt="{ body: 'card-root' }">
                 <template #title>
                     <div class="card flex flex-wrap">
                         <h2 class="align-items-center">
@@ -374,15 +374,15 @@ const setDistributionsChartOptions = () => {
                 </template>
                 <template #content>
                     <div class="flex flex-wrap justify-content-around align-items-center">
-                        <Fieldset>
+                        <Fieldset >
                             <template #legend>
-                                {{ t('dashboard.spots') }}
+                                <span style="font-size: 1.1rem;">{{ t('dashboard.spots') }}</span>
                             </template>
                             <Chart type="doughnut" :data="spotsDistributionsChartData" :options="distributionsChartOptions" :pt="{ root: 'distributions-chart' }" class="pl-2 pr-2" />
                         </Fieldset>
                         <Fieldset>
                             <template #legend>
-                                {{ t('dashboard.perpetual_futures') }}
+                                <span style="font-size: 1.1rem;">{{ t('dashboard.perpetual_futures') }}</span>
                             </template>
                             <Chart type="doughnut" :data="futuresDistributionsChartData" :options="distributionsChartOptions" :pt="{ root: 'distributions-chart' }" class="pl-2 pr-2"/>
                         </Fieldset>
