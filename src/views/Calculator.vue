@@ -79,6 +79,7 @@ const del_exit_cell = (index) => {
 const side = ref(null);
 const avg_price = ref(0);
 const total_qty = ref(0);
+const total_nominal_value = ref(0);
 const stop_loss = ref(0);
 
 const expected_loss = ref(0);
@@ -86,7 +87,7 @@ const expected_profits = ref([]);
 
 const isNumber = (value) => typeof value === 'number' && !isNaN(value);
 
-const calculate_average_price = () => {
+const calculate_position = () => {
     let _avg_qty = 0;
     let _qty = 0;
 
@@ -100,6 +101,7 @@ const calculate_average_price = () => {
     let res = [_avg_qty / _qty, _qty];
     avg_price.value = isNumber(res[0]) ? res[0] : 0;
     total_qty.value = isNumber(res[1]) ? res[1] : 0;
+    total_nominal_value.value = avg_price.value * total_qty.value;
 }
 
 const detect_side = () => {
@@ -126,18 +128,29 @@ const calculate_expected_profits = () => {
     for (let i=0; i<exits.value.length; i++){
 
         if(exits.value[i].price!==0 && exits.value[i].qtyRatio!==0){
+            let tp_res = {
+                'r_p': 0,
+                'ur_p': 0,
+                'prr': 0,
+                'qty': 0
+            }
+
             const price_diff = side.value ? (exits.value[i].price - avg_price.value) : (avg_price.value - exits.value[i].price);
+            const realized_qty = qty * exits.value[i].qtyRatio / 100;
+            realized_profit += realized_qty * price_diff;
 
-            realized_profit += (qty * exits.value[i].qtyRatio / 100) * price_diff;
+            tp_res['r_p'] = realized_profit;
+            tp_res['qty'] = realized_qty;
 
-            qty = qty * (1- exits.value[i].qtyRatio / 100);
+            // remaining qty
+            qty = qty - realized_qty;
             const unrealized_profit = qty * price_diff;
             const profit_risk_ratio = (realized_profit + unrealized_profit) / expected_loss.value;
-            res.push({
-                'r_p': realized_profit,
-                'ur_p': unrealized_profit,
-                'prr': profit_risk_ratio
-            })
+            
+            tp_res['ur_p'] = unrealized_profit;
+            tp_res['prr'] = profit_risk_ratio;
+
+            res.push(tp_res);
         }
     }
     expected_profits.value = res;
@@ -161,7 +174,7 @@ watch(entries, () => {
             return a.price - b.price;
         });
     }
-    calculate_average_price();
+    calculate_position();
     detect_side();
     calculate_expected_loss();
     calculate_expected_profits();
@@ -341,9 +354,13 @@ const saveResultToLocalStorage = (name) => {
                                 <h3>{{ t('calculator.average_price') }}</h3>
                                 <span>{{ avg_price }}</span>
                             </div>
-                            <div class="mr-6">
+                            <div>
                                 <h3>{{ t('calculator.quantity') }}</h3>
                                 <span>{{ total_qty }}</span>
+                            </div>
+                            <div>
+                                <h3>{{ t('calculator.nominal_value') }}</h3>
+                                <span>{{ total_nominal_value }}</span>
                             </div>
                         </div>
                         <Divider />
@@ -358,14 +375,24 @@ const saveResultToLocalStorage = (name) => {
                                 <template #legend>
                                     {{ t('calculator.tp') }}{{ index+1 }}
                                 </template>
-                                <div>
-                                    {{ t('calculator.realized_profit') }}: {{ value.r_p }}
-                                </div>
-                                <div>
-                                    {{ t('calculator.unrealized_profit') }}: {{ value.ur_p }}
-                                </div>
-                                <div>
-                                    {{ t('calculator.profit_risk_ratio') }}: {{ value.prr }}
+                                
+                                <div class="flex gap-8">
+                                    <div>
+                                        <div>
+                                            {{ t('calculator.realized_profit') }}: {{ value.r_p }}
+                                        </div>
+                                        <div>
+                                            {{ t('calculator.unrealized_profit') }}: {{ value.ur_p }}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            {{ t('calculator.realized_quantity') }}: {{ value.qty }}
+                                        </div>
+                                        <div>
+                                            {{ t('calculator.profit_risk_ratio') }}: {{ value.prr }}
+                                        </div>
+                                    </div>
                                 </div>
                             </Fieldset>
                         </div>
