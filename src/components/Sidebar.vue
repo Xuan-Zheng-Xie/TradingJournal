@@ -34,18 +34,6 @@
     >
       <div id="my-scroll" style="margin: 6px 14px 0 14px">
         <ul class="nav-list" style="overflow: visible">
-          <li id="links_search" v-if="isSearch" @click="isOpened = true">
-            <i class="bx bx-search" />
-            <input
-              type="text"
-              :placeholder="searchPlaceholder"
-              @input="$emit('search-input-emit', $event.target.value)"
-            />
-            <span data-target="links_search" class="tooltip">
-              {{ searchTooltip }}
-            </span>
-          </li>
-
           <li v-for="(menuItem, index) in menuItems" :key="index" :id="'links_' + index">
             <router-link v-if="isUsedVueRouter" :to="menuItem.link">
               <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
@@ -186,10 +174,8 @@ const cssVars = computed(() => ({
   '--icons-color': props.iconsColor,
   '--icons-hover-color': props.bgColor,
   '--items-tooltip-color': props.itemsTooltipColor,
-  '--serach-input-text-color': props.searchInputTextColor,
   '--menu-items-hover-color': props.menuItemsHoverColor,
   '--menu-items-text-color': props.menuItemsTextColor,
-  '--menu-footer-text-color': props.menuFooterTextColor,
 }));
 
 // Watchers
@@ -237,9 +223,6 @@ onMounted(() => {
     }
     body {
       transition: all 0.5s ease;
-    }
-    .name_job {
-      margin-bottom: 5px;
     }
     .menu-logo {
       width: 30px;
@@ -351,23 +334,6 @@ onMounted(() => {
     }
     .sidebar.open li .tooltip {
       display: none;
-    }
-    .sidebar input {
-      font-size: 15px;
-      color: var(--serach-input-text-color);
-      font-weight: 400;
-      outline: none;
-      height: 50px;
-      width: 100%;
-      width: 50px;
-      border: none;
-      border-radius: 12px;
-      transition: all 0.5s ease;
-      background: var(--secondary-color);
-    }
-    .sidebar.open input {
-      padding: 0 20px 0 50px;
-      width: 100%;
     }
     .sidebar li a {
       display: flex;

@@ -28,7 +28,7 @@ const formatter = new Intl.DateTimeFormat(
 )
 
 // descriptions template
-const descriptionsTemplate = `Buffs:
+const descriptionsTemplate = `descriptions:
 1. 
 2. 
 3. 
@@ -153,7 +153,7 @@ const history_profit = ref(null);
 const history_risk = ref(1);
 const history_quantity = ref(null);
 const history_image = ref(null);
-const history_buff = ref(descriptionsTemplate);
+const history_descriptions = ref(descriptionsTemplate);
 
 function flushHistoryInput() {
     history_date.value = new Date();
@@ -162,7 +162,7 @@ function flushHistoryInput() {
     history_profit.value = null;
     history_risk.value = 1;
     history_image.value = '';
-    history_buff.value = descriptionsTemplate;
+    history_descriptions.value = descriptionsTemplate;
 }
 
 function onSubmitHistory() {
@@ -196,7 +196,7 @@ function onSubmitHistory() {
         "quantity": history_quantity.value,
         "risk": history_risk.value,
         "profit": history_profit.value,
-        "buff": history_buff.value,
+        "description": history_descriptions.value,
     }
     
     History.value.push(newHistoryData);
@@ -285,16 +285,16 @@ function onSubmitHistory() {
                     </span>
                 </template>
             </Column>
-            <Column field="buff" style="width: 23%;">
+            <Column field="description" style="width: 23%;">
                 <template #header>
                     <span>{{ t('recorder.descriptios') }}</span>
                 </template>
                 <template #body="slotProps">
-                    <div v-html="slotProps.data.buff.replace(/\n/g, '<br>')"></div>
+                    <div v-html="slotProps.data.description.replace(/\n/g, '<br>')"></div>
                 </template>
                 <template #editor="{ data, field }" >
                     <div class="h-full w-full">
-                        <Textarea id="buffInput" v-model="data[field]" fluid autoResize rows="5" />
+                        <Textarea id="descriptionInput" v-model="data[field]" fluid autoResize rows="5" />
                     </div>
                 </template>
             </Column>
@@ -328,20 +328,20 @@ function onSubmitHistory() {
                 <div class="field col-12 md:col-6">
                     <label for="profitInput">{{ t('recorder.quantity') }}</label>
                     <div class="p-2">
-                        <InputNumber v-model:model-value="history_quantity" suffix="USDT" id="profitInput" fluid class="focus:border-primary" />
+                        <InputNumber v-model:model-value="history_quantity" suffix="USDT" id="profitInput" :min="0" :maxFractionDigits="4"  fluid class="focus:border-primary" />
                     </div>
                 </div>
                 <div class="field col-12 md:col-3">
                     <label for="riskInput">{{ t('recorder.risk') }}</label>
                     <div class="p-2">
-                        <InputNumber v-model:model-value="history_risk" suffix="%" id="riskInput" fluid class="focus:border-primary"/>
+                        <InputNumber v-model:model-value="history_risk" suffix="%" id="riskInput" :min="0" :maxFractionDigits="2"  fluid class="focus:border-primary"/>
                     </div>
                 </div>
                 
                 <div class="field col-12 md:col-3">
                     <label for="profitInput">{{ t('recorder.profit') }}</label>
                     <div class="p-2">
-                        <InputNumber v-model:model-value="history_profit" suffix="USDT" id="profitInput" fluid class="focus:border-primary" />
+                        <InputNumber v-model:model-value="history_profit" :min="0" :maxFractionDigits="4"  suffix="USDT" id="profitInput" fluid class="focus:border-primary" />
                     </div>
                 </div>
                 <div class="field col-12">
@@ -352,9 +352,9 @@ function onSubmitHistory() {
                     </div>
                 </div>
                 <div class="field col-12">
-                    <label for="buffInput">{{ t('recorder.descriptios') }}</label>
+                    <label for="descriptionInput">{{ t('recorder.descriptios') }}</label>
                     <div class="p-2">
-                        <Textarea id="buffInput" v-model="history_buff" fluid rows="10" />
+                        <Textarea id="descriptionInput" v-model="history_descriptions" fluid rows="10" />
                     </div>
                 </div>
                 
@@ -389,19 +389,19 @@ function onSubmitHistory() {
                 <div class="field col-12 md:col-6">
                     <label for="profitInput">{{ t('recorder.quantity') }}</label>
                     <div class="p-2">
-                        <InputNumber v-model:model-value="edit_historyData.quantity" suffix="USDT" id="profitInput" fluid class="focus:border-primary" />
+                        <InputNumber v-model:model-value="edit_historyData.quantity" :min="0" :maxFractionDigits="4"  suffix="USDT" id="profitInput" fluid class="focus:border-primary" />
                     </div>
                 </div>
                 <div class="field col-12 md:col-3">
                     <label for="riskInput">{{ t('recorder.risk') }}</label>
                     <div class="p-2">
-                        <InputNumber v-model:model-value="edit_historyData.risk" suffix="%" id="riskInput" fluid class="focus:border-primary"/>
+                        <InputNumber v-model:model-value="edit_historyData.risk" :min="0" :maxFractionDigits="2"  suffix="%" id="riskInput" fluid class="focus:border-primary"/>
                     </div>
                 </div>
                 <div class="field col-12 md:col-3">
                     <label for="profitInput">{{ t('recorder.profit') }}</label>
                     <div class="p-2">
-                        <InputNumber v-model:model-value="edit_historyData.profit" suffix="USDT" id="profitInput" fluid class="focus:border-primary" />
+                        <InputNumber v-model:model-value="edit_historyData.profit" :min="0" :maxFractionDigits="4"  suffix="USDT" id="profitInput" fluid class="focus:border-primary" />
                     </div>
                 </div>
                 <div class="field col-12">
@@ -412,9 +412,9 @@ function onSubmitHistory() {
                     </div>
                 </div>
                 <div class="field col-12">
-                    <label for="buffInput">{{ t('recorder.descriptios') }}</label>
+                    <label for="descriptionInput">{{ t('recorder.descriptios') }}</label>
                     <div class="p-2">
-                        <Textarea id="buffInput" v-model="edit_historyData.buff" fluid rows="10" />
+                        <Textarea id="descriptionInput" v-model="edit_historyData.description" fluid rows="10" />
                     </div>
                 </div>
             </div>
